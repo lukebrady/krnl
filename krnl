@@ -1,0 +1,36 @@
+#!/Library/Frameworks/Python.framework/Versions/3.6/bin/python3
+
+import download_kernel
+from build_environment import BuildEnvironment
+from sys import argv
+
+def command_message():
+    print('Usage: krnl COMMAND')
+    print()
+    print('A distributed kernel management system')
+    print()
+    print('Options:')
+    print('build_env    Builds krnl environment')
+    print('pull    Pulls a kernel')
+    print('list    Lists all pulled kernels')
+    print()
+    print("Run 'krnl COMMAND -h' for more information on a command.")
+    exit(code=1)
+
+def main():
+    if len(argv) > 1:
+        if argv[1] == 'build_env':
+            build_env = BuildEnvironment()
+            build_env.deploy_redis()
+            exit(code=0)
+        elif argv[1] == 'pull':
+            download_kernel.download_kernel(argv[2])
+            exit(code=0)
+        else:
+           command_message()
+    else:
+        command_message()
+
+
+if __name__ == '__main__':
+    main()

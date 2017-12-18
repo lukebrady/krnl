@@ -1,0 +1,4 @@
+./kernels
+./.git
+./.idea
+__pycache__

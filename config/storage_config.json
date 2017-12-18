@@ -1,0 +1,8 @@
+{
+  "kernel_storage" : "https://cdn.kernel.org/pub/linux/kernel/v4.x/",
+  "redis_server" :  {
+    "host" : "localhost",
+    "port" : 6379,
+    "database" : 0
+  }
+}
