@@ -1,6 +1,6 @@
 #!/Library/Frameworks/Python.framework/Versions/3.6/bin/python3
 
-import download_kernel, list_kernel
+import download_kernel, list_kernel, paramiko
 from build_environment import BuildEnvironment
 from sys import argv
 
@@ -28,6 +28,13 @@ def main():
             exit(code=0)
         elif argv[1] == 'list':
             list_kernel.list_kernel()
+        elif argv[1] == 'ssh':
+            ssh = paramiko.SSHClient()
+            ssh.load_system_host_keys()
+            ssh.connect(argv[2], username='vagrant', password='vagrant')
+            stdin, stdout, stderr = ssh.exec_command('mkdir ~/test')
+            print(stderr)
+
         else:
            command_message()
     else:

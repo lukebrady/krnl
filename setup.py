@@ -2,11 +2,11 @@ from distutils.core import setup
 
 setup(
     name='krnl',
-    version='1.0',
-    packages=[''],
+    version='0.0.1',
+    packages=['docker','redis', 'paramiko'],
     url='',
     license='BSD 3.0',
     author='ltbrady',
-    author_email='',
+    author_email='lbrad23105@gmail.com',
     description='Krnl is a distributed kernel management system for your hybrid cloud.'
 )
