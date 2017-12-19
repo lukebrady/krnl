@@ -1,14 +1,14 @@
-import docker
+import docker, redis
 from configuration import Configuration
 
 
 class BuildEnvironment():
     def __init__(self):
-        config = Configuration('build')
-        configuration = config.GetConfiguration()
+        configuration = Configuration('build').GetConfiguration()
         self.docker_client = docker.from_env()
         self.redis_server = configuration.get('redis_server')
         self.redis_port = configuration.get('redis_port')
+        self.database = configuration.get('database')
 
     def deploy_redis(self):
         if self.redis_server == 'localhost':

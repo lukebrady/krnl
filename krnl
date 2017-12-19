@@ -1,6 +1,6 @@
 #!/Library/Frameworks/Python.framework/Versions/3.6/bin/python3
 
-import download_kernel
+import download_kernel, list_kernel
 from build_environment import BuildEnvironment
 from sys import argv
 
@@ -10,7 +10,7 @@ def command_message():
     print('A distributed kernel management system')
     print()
     print('Options:')
-    print('build_env    Builds krnl environment')
+    print('build    Builds krnl environment')
     print('pull    Pulls a kernel')
     print('list    Lists all pulled kernels')
     print()
@@ -19,13 +19,15 @@ def command_message():
 
 def main():
     if len(argv) > 1:
-        if argv[1] == 'build_env':
+        if argv[1] == 'build':
             build_env = BuildEnvironment()
             build_env.deploy_redis()
             exit(code=0)
         elif argv[1] == 'pull':
             download_kernel.download_kernel(argv[2])
             exit(code=0)
+        elif argv[1] == 'list':
+            list_kernel.list_kernel()
         else:
            command_message()
     else:

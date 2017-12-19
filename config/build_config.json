@@ -1,6 +1,7 @@
 {
   "redis_server" : "localhost",
   "redis_port" : 6379,
+  "database" : 0,
   "kernel_build_server" : "localhost",
   "max_kernel_count" : "unlimited"
 }
