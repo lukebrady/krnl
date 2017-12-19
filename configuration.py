@@ -16,6 +16,10 @@ class Configuration:
             storage_config = open("./config/build_config.json").read()
             json_config = json.loads(storage_config)
             return json_config
+        elif self.configuration == 'hosts':
+            host_config = open('./config/hosts.json').read()
+            json_config = json.loads(host_config)
+            return json_config
         else:
             print('ERROR: Not a proper configuration')
             exit(code=1)
