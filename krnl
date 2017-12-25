@@ -5,15 +5,12 @@ from build_environment import BuildEnvironment
 from sys import argv
 
 def command_message():
-    print('Usage: krnl COMMAND')
-    print()
-    print('A distributed kernel management system')
-    print()
+    print('Usage: krnl COMMAND\n')
+    print('A distributed kernel management system\n')
     print('Options:')
     print('build    Builds krnl environment')
     print('pull    Pulls a kernel')
-    print('list    Lists all pulled kernels')
-    print()
+    print('list    Lists all pulled kernels\n')
     print("Run 'krnl COMMAND -h' for more information on a command.")
     exit(code=1)
 
