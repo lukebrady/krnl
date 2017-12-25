@@ -23,9 +23,5 @@ def copy_ssh_id(user, password):
     exit(code=0)
 
 
-def
-
-
-
 if __name__ == '__main__':
     copy_ssh_id('ltbrady','vagrant')
