@@ -1,3 +1,3 @@
-![alt text](./logo/tux-laptop.svg "KRNL!!!")
+![alt text](./logo/krnl.png "KRNL!!!")
 # krnl
 A distributed kernel management system
