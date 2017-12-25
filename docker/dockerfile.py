@@ -1,3 +1,8 @@
+from subprocess import call
+from paramiko import SSHClient, SSHException
+
+
+# Dynamically generate a Dockerfile
 def generate_dockerfile(kernel_version):
     # Open Dockerfile to be written to. This will be used on the build server to
     # create an ephemeral build environment.
@@ -17,6 +22,20 @@ def generate_dockerfile(kernel_version):
     exit(code=0)
     dockerfile.close()
 
+# export_dockerfile sends your newly generated Dockerfile to the designated kernel build server.
+def export_dockerfile(user, build_host):
+    # Create a new SSH client that will be used to send the Dockerfile to the build server.
+    # This server's key should already be in the known_hosts file.
+
+    call(['scp', './Dockerfile', user + '@' + build_host + ':/etc/krnl/kernel-deploy'])
+
+
+def build_docker_image(name, build_host):
+    return
+
+
+
 
 if __name__ == '__main__':
-    generate_dockerfile('linux-4.1.48.tar.xz')
+    # generate_dockerfile('linux-4.1.48.tar.xz')
+    export_dockerfile('ltbrady', '192.168.33.14')
