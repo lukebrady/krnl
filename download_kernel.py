@@ -36,7 +36,7 @@ def download_kernel(version):
     else:
         print(cache_client.get("current_kernel"))
     # Add the new kernel to Redis so that you can query this later.
-    kernel_array = cache_client.lrange('_all', 0, -1)
+    cache_client.lrange('_all', 0, -1)
     cache_client.lpush('_all', version)
     exit(code=0)
 

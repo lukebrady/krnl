@@ -11,6 +11,9 @@ def list_kernel():
                                      decode_responses=True,
                                      encoding='UTF-8')
     kernel_array = cache_client.lrange('_all', 0, -1)
-    for k in kernel_array:
+    kernel_sorted = sorted(kernel_array)
+    print('Installed Kernels')
+    print('-----------------')
+    for k in kernel_sorted:
         print(k)
     exit(code=0)

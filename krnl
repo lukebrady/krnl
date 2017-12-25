@@ -33,13 +33,12 @@ def main():
             ssh.load_system_host_keys()
             ssh.connect(argv[2], username='vagrant', password='vagrant')
             stdin, stdout, stderr = ssh.exec_command('mkdir ~/test')
-            print(stderr)
+            print(stdout)
 
         else:
            command_message()
+
     else:
         command_message()
-
-
 if __name__ == '__main__':
     main()
