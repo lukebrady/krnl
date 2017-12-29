@@ -20,6 +20,7 @@ def copy_ssh_id(user, password):
         ssh_client.load_system_host_keys()
         ssh_client.connect(host, username=user, password=password)
         ssh_client.exec_command('mkdir ~/test')
+        ssh_client.close()
     exit(code=0)
 
 

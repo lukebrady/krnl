@@ -12,7 +12,9 @@ def generate_dockerfile(kernel_version):
     dockerfile_string  = 'FROM centos:latest\n'
     dockerfile_string += 'RUN yum install -y gcc make git ctags ncurses-devel openssl-devel\n'
     dockerfile_string += 'RUN mkdir ~/krnl_workspace/\n'
-    dockerfile_string += 'COPY ./kernels/' + kernel_version  + ' ~/krnl_workspacen/\n'
+    dockerfile_string += 'COPY ./kernels/' + kernel_version  + ' /root/krnl_workspace/\n'
+    dockerfile_string += 'RUN tar xzf ~/krnl_workspace/' + kernel_version + '\n'
+    dockerfile_string += 'RUN cd ~/krnl_workspace/' + kernel_version + '; make defconfig; make\n'
     # Try to write to the Dockerfile and raise an exception if there is a failure.
     try:
         dockerfile.write(dockerfile_string)
