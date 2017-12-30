@@ -10,11 +10,12 @@ def generate_dockerfile(kernel_version):
     dockerfile = open('./Dockerfile', 'w+')
     # dockerfile_string is the contents of the Dockerfile that will be generated at runtime.
     dockerfile_string  = 'FROM centos:latest\n'
-    dockerfile_string += 'RUN yum install -y gcc make git ctags ncurses-devel openssl-devel\n'
+    dockerfile_string += 'RUN yum install -y gcc make git ctags ncurses-devel openssl-devel bc openssl\n'
     dockerfile_string += 'RUN mkdir ~/krnl_workspace/\n'
     dockerfile_string += 'COPY ./kernels/' + kernel_version  + ' /root/krnl_workspace/\n'
-    dockerfile_string += 'RUN tar xzf ~/krnl_workspace/' + kernel_version + '\n'
-    dockerfile_string += 'RUN cd ~/krnl_workspace/' + kernel_version + '; make defconfig; make\n'
+    dockerfile_string += 'RUN tar xzv /root/krnl_workspace/' + kernel_version + '\n'
+    dockerfile_string += 'RUN cp ./config-3.10.0-693.11.1.el7.x86_64 ./' + kernel_version + '/.config'
+    dockerfile_string += 'RUN cd ~/krnl_workspace/' + kernel_version + '; make\n'
     # Try to write to the Dockerfile and raise an exception if there is a failure.
     try:
         dockerfile.write(dockerfile_string)

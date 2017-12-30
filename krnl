@@ -1,6 +1,6 @@
 #!/Library/Frameworks/Python.framework/Versions/3.6/bin/python3
 
-import download_kernel, list_kernel, paramiko
+import download_kernel, list_kernel, paramiko, remove_kernel
 from build_environment import BuildEnvironment
 from sys import argv
 
@@ -25,6 +25,8 @@ def main():
             exit(code=0)
         elif argv[1] == 'list':
             list_kernel.list_kernel()
+        elif argv[1] == 'rm':
+            remove_kernel.remove_kernel(argv[2])
         elif argv[1] == 'ssh':
             ssh = paramiko.SSHClient()
             ssh.load_system_host_keys()
