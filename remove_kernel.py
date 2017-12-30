@@ -1,10 +1,10 @@
 import os
 
-from redis import redis_client
+from krnl_redis import redis_client
 
 
 def remove_kernel(version):
-    # Get a redis client object
+    # Get a krnl_redis client object
     client = redis_client.KrnlRedisClient().get_client()
     kernel_path = './kernels/linux-' + version + '.tar.xz'
 

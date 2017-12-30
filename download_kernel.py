@@ -2,7 +2,7 @@
 # requested to be installed. This is downloaded by default from kernel.org.
 # A separate blob storage can be configured in ./storage_config.json.
 
-import json, os, redis, sys
+import json, os, krnl_redis, sys
 
 import logging
 from subprocess import run as run
@@ -22,11 +22,11 @@ def make_immutable(version):
 def download_kernel(version):
     config_file = open('./config/storage_config.json', 'r+').read()
     json_config = json.loads(config_file)
-    cache_client = redis.StrictRedis(host=json_config.get('redis_server').get('host'),
-                                     port=json_config.get('redis_server').get('port'),
-                                     db=json_config.get('redis_server').get('database'),
-                                     decode_responses=True,
-                                     encoding='UTF-8')
+    cache_client = krnl_redis.StrictRedis(host=json_config.get('redis_server').get('host'),
+                                          port=json_config.get('redis_server').get('port'),
+                                          db=json_config.get('redis_server').get('database'),
+                                          decode_responses=True,
+                                          encoding='UTF-8')
     kernel_url = json_config.get('kernel_storage') + 'linux-{}.tar.xz'.format(version)
     if not check_filesystem_for_kernel(version):
         download = run(['curl', '-XGET', kernel_url, '-o', './kernels/linux-' + version + '.tar.xz'])

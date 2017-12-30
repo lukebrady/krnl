@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
     name='krnl',
     version='0.0.1',
-    packages=['docker','redis', 'paramiko'],
+    packages=['docker','krnl_redis', 'paramiko'],
     url='',
     license='BSD 3.0',
     author='ltbrady',

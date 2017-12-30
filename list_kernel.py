@@ -1,5 +1,4 @@
 import redis
-
 from configuration import Configuration
 
 

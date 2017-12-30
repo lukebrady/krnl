@@ -27,12 +27,6 @@ def main():
             list_kernel.list_kernel()
         elif argv[1] == 'rm':
             remove_kernel.remove_kernel(argv[2])
-        elif argv[1] == 'ssh':
-            ssh = paramiko.SSHClient()
-            ssh.load_system_host_keys()
-            ssh.connect(argv[2], username='vagrant', password='vagrant')
-            stdin, stdout, stderr = ssh.exec_command('mkdir ~/test')
-            print(stdout)
 
         else:
            command_message()

@@ -1,4 +1,4 @@
-import paramiko, redis, logging
+import paramiko, krnl_redis, logging
 
 from configuration import Configuration
 
