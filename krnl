@@ -61,11 +61,11 @@ class KrnlCommand:
             description='Removes a kernel based on its version'
         )
 
-        parser.add_argument('--version', help='Version of kernel that will be removed')
+        parser.add_argument('-t', help='Version of kernel that will be removed')
         args = parser.parse_args(sys.argv[2:])
 
-        if args.version:
-            remove_kernel.remove_kernel(args.version)
+        if args.t:
+            remove_kernel.remove_kernel(args.t)
         else:
             parser.print_help()
 
