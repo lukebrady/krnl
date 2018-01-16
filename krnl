@@ -13,6 +13,8 @@ class KrnlCommand:
         The most commonly used krnl commands are:
            build   Builds the krnl environment
            pull    Pulls a kernel based on its version
+           list    Lists all pulled kernels
+           rm      Removes the given kernel
         ''')
         parser.add_argument('command', help='Subcommand to run')
         # parse_args defaults to [1:] for args, but you need to
@@ -39,11 +41,11 @@ class KrnlCommand:
             description='Pulls a kernel'
         )
         # NOT prefixing the argument with -- means it's not optional
-        parser.add_argument('--version', help='Kernel version that will be pulled')
+        parser.add_argument('-t', help='Kernel version that will be pulled')
         args = parser.parse_args(sys.argv[2:])
 
-        if args.version:
-            download_kernel.download_kernel(args.version)
+        if args.t:
+            download_kernel.download_kernel(args.t)
         else:
             parser.print_help()
 
@@ -54,7 +56,7 @@ class KrnlCommand:
         # Run the list_kernel function
         list_kernel.list_kernel()
 
-    def remove(self):
+    def rm(self):
         parser = argparse.ArgumentParser(
             description='Removes a kernel based on its version'
         )

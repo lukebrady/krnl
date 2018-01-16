@@ -22,28 +22,31 @@ def get_kernel_hash(version):
     BUF_SIZE = 65536  # lets read stuff in 64kb chunks!
     kernel = './kernels/linux-' + version + '.tar.xz'
     sha256 = hashlib.sha256()
-
-    with open(kernel, 'rb') as f:
-        while True:
-            data = f.read(BUF_SIZE)
-            if not data:
-                break
-            sha256.update(data)
-    return sha256.hexdigest()
+    if os.path.exists(kernel):
+        with open(kernel, 'rb') as f:
+            while True:
+                data = f.read(BUF_SIZE)
+                if not data:
+                    break
+                sha256.update(data)
+        return sha256.hexdigest()
+    else:
+        print('Kernel cannot be hashed.')
 
 
 def download_kernel(version):
     config_file = open('./config/storage_config.json', 'r+').read()
     json_config = json.loads(config_file)
+    kernel_hash = ''
     cache_client = redis.StrictRedis(host=json_config.get('redis_server').get('host'),
                                      port=json_config.get('redis_server').get('port'),
                                      db=json_config.get('redis_server').get('database'),
                                      decode_responses=True,
                                      encoding='UTF-8')
     kernel_url = json_config.get('kernel_storage') + 'linux-{}.tar.xz'.format(version)
-    kernel_hash = get_kernel_hash(version)
     if not check_filesystem_for_kernel(version):
         download = run(['curl', '-XGET', kernel_url, '-o', './kernels/linux-' + version + '.tar.xz'])
+        kernel_hash = get_kernel_hash(version)
         if download.returncode != 0:
             logging.error('There was an error downloading the kernel.')
             exit(code=1)
