@@ -48,11 +48,24 @@ class KrnlCommand:
             parser.print_help()
 
     def list(self):
-        parser = argparse.ArgumentParser(
+        argparse.ArgumentParser(
             description='Lists all pulled kernels'
         )
         # Run the list_kernel function
         list_kernel.list_kernel()
+
+    def remove(self):
+        parser = argparse.ArgumentParser(
+            description='Removes a kernel based on its version'
+        )
+
+        parser.add_argument('--version', help='Version of kernel that will be removed')
+        args = parser.parse_args(sys.argv[2:])
+
+        if args.version:
+            remove_kernel.remove_kernel(args.version)
+        else:
+            parser.print_help()
 
 
 def command_message():
