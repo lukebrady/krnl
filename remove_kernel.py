@@ -10,6 +10,9 @@ def remove_kernel(version):
 
     if os.path.exists(kernel_path):
         os.remove(kernel_path)
+        obj = client.lrange('-all', 0, -1)
+        for x in obj:
+            print(x)
         client.lrem('_all', -1, version)
         exit(code=0)
     else:

@@ -1,9 +1,9 @@
-import docker
+import krnl_docker
 
 
 # Pull latest CentOS image that will be used to create the kernel build container.
 def pull_build_container():
-    docker_client = docker.from_env()
+    docker_client = krnl_docker.from_env()
     if docker_client.version() != None:
         print("INFO: Pulling latest centos docker image")
         docker_client.images.pull('centos:latest')

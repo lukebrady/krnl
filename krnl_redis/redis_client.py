@@ -1,11 +1,11 @@
-import json, krnl_redis
+import json, redis
 
 # The KrnlRedisClient will be used to load the Redis client from the storage config file.
 class KrnlRedisClient:
     def __init__(self):
         config_file = open('./config/storage_config.json', 'r+').read()
         json_config = json.loads(config_file)
-        self.cache_client = krnl_redis.StrictRedis(host=json_config.get('redis_server').get('host'),
+        self.cache_client = redis.StrictRedis(host=json_config.get('redis_server').get('host'),
                                                    port=json_config.get('redis_server').get('port'),
                                                    db=json_config.get('redis_server').get('database'),
                                                    decode_responses=True,

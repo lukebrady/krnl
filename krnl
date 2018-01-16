@@ -1,8 +1,59 @@
 #!/Library/Frameworks/Python.framework/Versions/3.6/bin/python3
 
-import download_kernel, list_kernel, paramiko, remove_kernel
+import download_kernel, list_kernel, argparse, remove_kernel, sys
 from build_environment import BuildEnvironment
-from sys import argv
+
+
+class KrnlCommand:
+    def __init__(self):
+        parser = argparse.ArgumentParser(
+            description='A distributed kernel management system',
+            usage='''krnl <command> [<args>]
+
+        The most commonly used krnl commands are:
+           build   Builds the krnl environment
+           pull    Pulls a kernel based on its version
+        ''')
+        parser.add_argument('command', help='Subcommand to run')
+        # parse_args defaults to [1:] for args, but you need to
+        # exclude the rest of the args too, or validation will fail
+        args = parser.parse_args(sys.argv[1:2])
+        if not hasattr(self, args.command):
+            print
+            'Unrecognized command'
+            parser.print_help()
+            exit(1)
+        # use dispatch pattern to invoke method with same name
+        getattr(self, args.command)()
+
+    def build(self):
+        parser = argparse.ArgumentParser(
+            description='Builds krnl environment')
+        # args = parser.parse_args(sys.argv[2:])
+        build_env = BuildEnvironment()
+        build_env.deploy_redis()
+        print('INFO: Building krnl environment')
+
+    def pull(self):
+        parser = argparse.ArgumentParser(
+            description='Pulls a kernel'
+        )
+        # NOT prefixing the argument with -- means it's not optional
+        parser.add_argument('--version', help='Kernel version that will be pulled')
+        args = parser.parse_args(sys.argv[2:])
+
+        if args.version:
+            download_kernel.download_kernel(args.version)
+        else:
+            parser.print_help()
+
+    def list(self):
+        parser = argparse.ArgumentParser(
+            description='Lists all pulled kernels'
+        )
+        # Run the list_kernel function
+        list_kernel.list_kernel()
+
 
 def command_message():
     print('Usage: krnl COMMAND\n')
@@ -14,24 +65,6 @@ def command_message():
     print("Run 'krnl COMMAND -h' for more information on a command.")
     exit(code=1)
 
-def main():
-    if len(argv) > 1:
-        if argv[1] == 'build':
-            build_env = BuildEnvironment()
-            build_env.deploy_redis()
-            exit(code=0)
-        elif argv[1] == 'pull':
-            download_kernel.download_kernel(argv[2])
-            exit(code=0)
-        elif argv[1] == 'list':
-            list_kernel.list_kernel()
-        elif argv[1] == 'rm':
-            remove_kernel.remove_kernel(argv[2])
 
-        else:
-           command_message()
-
-    else:
-        command_message()
 if __name__ == '__main__':
-    main()
+    KrnlCommand()
