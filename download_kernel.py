@@ -2,8 +2,9 @@
 # requested to be installed. This is downloaded by default from kernel.org.
 # A separate blob storage can be configured in ./storage_config.json.
 
-import json, os, redis, logging, hashlib, sys
+import json, os, redis, logging, hashlib
 
+from json import dumps
 from subprocess import run as run
 
 
@@ -43,6 +44,13 @@ def download_kernel(version):
     if not check_filesystem_for_kernel(version):
         download = run(['curl', '-XGET', kernel_url, '-o', './kernels/linux-' + version + '.tar.xz'])
         kernel_hash = get_kernel_hash(version)
+
+        # Print out the kernel version and the signature of the kernel that was just downloaded.
+        # This signature will also be written to the version's signature file in kernels/signatures/.
+        print(version)
+        print(kernel_hash)
+
+        # Check to see if the download was successful.
         if download.returncode != 0:
             logging.error('There was an error downloading the kernel.')
             exit(code=1)
@@ -52,19 +60,17 @@ def download_kernel(version):
             #       make_immutable(version)
     else:
         print('Kernel version has already been downloaded.')
-    if cache_client.get('current_kernel') != version:
-        cache_client.set('current_kernel', version)
-    else:
-        print(cache_client.get('current_kernel'))
-        print(kernel_hash)
 
-    kernel_obj = {'version': version, 'hash': kernel_hash}
     # Add the new kernel to Redis so that you can query this later.
-    cache_client.lrange('_all', 0, -1)
-    cache_client.lpush('_all', version)
+    if not cache_client.exists(version):
+        print(cache_client.exists(version))
+        cache_client.lrange('_all', 0, -1)
+        cache_client.lpush('_all', version)
 
-    sig_file = open('./kernels/signatures/{}.sig'.format(version), 'w')
-    sig_file.write(str(kernel_obj) + '\n')
+    # Create the kernels signature object with the version and hash of the downloaded kernel.
+    kernel_obj = {'version': version, 'hash': kernel_hash}
+    sig_file = open('./kernels/signatures/{}.json'.format(version), 'w')
+    sig_file.write(dumps(kernel_obj) + '\n')
     sig_file.close()
 
     exit(code=0)
@@ -75,5 +81,4 @@ def decompress_kernel(version):
 
 
 if __name__ == '__main__':
-    # download_kernel('4.9.68')
-    download_kernel('4.9.68')
+    print('It\'s time to download some kernels!')

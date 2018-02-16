@@ -2,6 +2,7 @@
 
 import download_kernel, list_kernel, argparse, remove_kernel, sys
 from build_environment import BuildEnvironment
+from destroy_environment import DestroyEnvironment
 
 
 class KrnlCommand:
@@ -35,6 +36,14 @@ class KrnlCommand:
         build_env = BuildEnvironment()
         build_env.deploy_redis()
         print('INFO: Building krnl environment')
+
+    def destroy(self):
+        parser = argparse.ArgumentParser(
+            description='Builds krnl environment')
+        # args = parser.parse_args(sys.argv[2:])
+        build_env = DestroyEnvironment()
+        build_env.destroy_redis()
+        print('INFO: Destroying krnl environment')
 
     def pull(self):
         parser = argparse.ArgumentParser(
