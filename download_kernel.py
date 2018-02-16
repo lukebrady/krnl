@@ -14,10 +14,6 @@ def check_filesystem_for_kernel(version):
         return False
 
 
-def make_immutable(version):
-    run(['chattr', '+i', './kernels/linux-' + version + 'tar.xz'])
-
-
 def get_kernel_hash(version):
     BUF_SIZE = 65536  # lets read stuff in 64kb chunks!
     kernel = './kernels/linux-' + version + '.tar.xz'
@@ -65,7 +61,12 @@ def download_kernel(version):
     kernel_obj = {'version': version, 'hash': kernel_hash}
     # Add the new kernel to Redis so that you can query this later.
     cache_client.lrange('_all', 0, -1)
-    cache_client.lpush('_all', kernel_obj)
+    cache_client.lpush('_all', version)
+
+    sig_file = open('./kernels/signatures/{}.sig'.format(version), 'w')
+    sig_file.write(str(kernel_obj) + '\n')
+    sig_file.close()
+
     exit(code=0)
 
 
