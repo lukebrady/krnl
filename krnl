@@ -1,6 +1,6 @@
 #!/Library/Frameworks/Python.framework/Versions/3.6/bin/python3
 
-import download_kernel, list_kernel, argparse, remove_kernel, sys
+import download_kernel, list_kernel, argparse, remove_kernel, sys, kernel_server
 from build_environment import BuildEnvironment
 from destroy_environment import DestroyEnvironment
 
@@ -78,6 +78,13 @@ class KrnlCommand:
         else:
             parser.print_help()
 
+    def server(self):
+        parser = argparse.ArgumentParser(
+            description='Starts the krnl web server'
+        )
+
+        server = kernel_server.KernelServer()
+        server.app.run(debug=True)
 
 def command_message():
     print('Usage: krnl COMMAND\n')

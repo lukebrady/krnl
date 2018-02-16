@@ -1,3 +1,5 @@
 redis
 paramiko
 docker
+requests
+flask
