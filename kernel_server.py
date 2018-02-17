@@ -7,4 +7,5 @@ class KernelServer:
 
         @self.app.route('/')
         def index():
-            return '<h1>This is KRNL</h1>'
+            index = open('web/html/index.html', 'r').read(None)
+            return index
