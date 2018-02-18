@@ -13,6 +13,7 @@ class KernelServer:
                                          decode_responses=True,
                                          encoding='UTF-8')
 
+
         @self.app.route('/')
         def index():
             all = self.cache_client.lrange('_all', 0, -1)
@@ -22,3 +23,10 @@ class KernelServer:
                 index += '<h4>{}</h4>'.format(kernel)
             # index = open('web/html/index.html', 'r').read(None)
             return index
+
+        # This route will be used to perform a system-wide health check and return
+        # the status depending on system performance.
+        @self.app.route('/health')
+        def health():
+            status = '<p>Krnl Status</p><p style = "background-color : green; color: white">Kernels: Healthy</p>'
+            return status
