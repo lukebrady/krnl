@@ -62,7 +62,7 @@ def download_kernel(version):
         print('Kernel version has already been downloaded.')
 
     # Add the new kernel to Redis so that you can query this later.
-    if cache_client.exists(version) != False:
+    if cache_client.exists(version) == False:
         print(cache_client.exists(version))
         cache_client.lrange('_all', 0, -1)
         cache_client.lpush('_all', version)

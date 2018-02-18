@@ -1,8 +1,11 @@
 #!/Library/Frameworks/Python.framework/Versions/3.6/bin/python3
 
-import download_kernel, list_kernel, argparse, remove_kernel, sys, kernel_server
+import download_kernel, list_kernel, argparse, remove_kernel, sys, kernel_server, webbrowser
+
 from build_environment import BuildEnvironment
 from destroy_environment import DestroyEnvironment
+from krnl_salt.krnl_salt import KernelSalt
+
 
 
 class KrnlCommand:
@@ -84,8 +87,24 @@ class KrnlCommand:
         )
 
         server = kernel_server.KernelServer()
+        webbrowser.open('localhost:5000')
         server.app.run(debug=True)
 
+    def deploy(self):
+        parser = argparse.ArgumentParser(
+            description='Deploys a kernel to a list of nodes'
+        )
+
+        parser.add_argument('-t', help='Version of kernel that will be deployed')
+        parser.add_argument('-n', help='The list of nodes that the kernel will be deployed to')
+        args = parser.parse_args(sys.argv[2:])
+
+        if args.t:
+            remove_kernel.remove_kernel(args.t)
+        if args.n:
+            KernelSalt.deploy_kernel()
+        else:
+            parser.print_help()
 def command_message():
     print('Usage: krnl COMMAND\n')
     print('A distributed kernel management system\n')
