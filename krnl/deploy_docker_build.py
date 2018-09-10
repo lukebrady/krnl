@@ -1,4 +1,4 @@
-import krnl_docker
+from krnl import krnl_docker
 
 
 # Pull latest CentOS image that will be used to create the kernel build container.

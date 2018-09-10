@@ -1,5 +1,5 @@
-import docker, krnl_redis
-from configuration import Configuration
+import docker
+from krnl.configuration import Configuration
 
 
 class BuildEnvironment():

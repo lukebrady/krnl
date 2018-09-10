@@ -1,5 +1,5 @@
 import redis
-from configuration import Configuration
+from krnl.configuration import Configuration
 
 
 def list_kernel():

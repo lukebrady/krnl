@@ -1,6 +1,6 @@
-import paramiko, krnl_redis, logging
+import paramiko, logging
 
-from configuration import Configuration
+from krnl.configuration import Configuration
 
 def get_ssh_host_configuration():
     # Gets the host configuration that will be returned and used in later functions.

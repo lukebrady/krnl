@@ -1,10 +1,11 @@
 #!/Library/Frameworks/Python.framework/Versions/3.6/bin/python3
 
-import download_kernel, list_kernel, argparse, remove_kernel, sys, kernel_server, webbrowser
+import argparse, sys, webbrowser
+from krnl import kernel_server, download_kernel, list_kernel, remove_kernel
 
-from build_environment import BuildEnvironment
-from destroy_environment import DestroyEnvironment
-from krnl_salt.krnl_salt import KernelSalt
+from krnl.build_environment import BuildEnvironment
+from krnl.destroy_environment import DestroyEnvironment
+from krnl.krnl_salt.krnl_salt import KernelSalt
 
 
 
@@ -100,9 +101,9 @@ class KrnlCommand:
         args = parser.parse_args(sys.argv[2:])
 
         if args.t:
-            remove_kernel.remove_kernel(args.t)
+            print(args.t)
         if args.n:
-            KernelSalt.deploy_kernel()
+            KernelSalt().deploy_kernel()
         else:
             parser.print_help()
 def command_message():

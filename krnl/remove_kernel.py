@@ -1,6 +1,6 @@
 import os
 
-from krnl_redis import redis_client
+from krnl.krnl_redis import redis_client
 
 
 def remove_kernel(version):
