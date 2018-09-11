@@ -14,15 +14,21 @@ class Configuration:
     # over the other. I am thinking about just creating a krnl.json configuration file.
     def GetConfiguration(self):
         if self.configuration == 'storage':
-            storage_config = open('./config/storage_config.json').read()
-            json_config = json.loads(storage_config)
-            self.log.info('INFO: Returning storage configuration')
-            return json_config
+            try:
+                storage_config = open('./krnl/config/storage_config.json').read()
+                json_config = json.loads(storage_config)
+                self.log.info('INFO: Returning storage configuration')
+                return json_config
+            except FileNotFoundError:
+                print("ERROR: Could not read storage_config.json")
         elif self.configuration == 'build':
-            storage_config = open('./config/build_config.json').read()
-            json_config = json.loads(storage_config)
-            self.log.info('INFO: Returning build configuration')
-            return json_config
+            try:
+                storage_config = open('./krnl/config/build_config.json').read()
+                json_config = json.loads(storage_config)
+                self.log.info('INFO: Returning build configuration')
+                return json_config
+            except FileNotFoundError:
+                print("ERROR: Could not read build_config.json")
         elif self.configuration == 'hosts':
             host_config = open('../config/hosts.json').read()
             json_config = json.loads(host_config)

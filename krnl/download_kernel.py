@@ -32,7 +32,7 @@ def get_kernel_hash(version):
 
 
 def download_kernel(version):
-    config_file = open('./config/storage_config.json', 'r+').read()
+    config_file = open('./krnl/config/storage_config.json', 'r+').read()
     json_config = json.loads(config_file)
     kernel_hash = ''
     cache_client = redis.StrictRedis(host=json_config.get('redis_server').get('host'),
@@ -42,7 +42,7 @@ def download_kernel(version):
                                      encoding='UTF-8')
     kernel_url = json_config.get('kernel_storage') + 'linux-{}.tar.xz'.format(version)
     if not check_filesystem_for_kernel(version):
-        download = run(['curl', '-XGET', kernel_url, '-o', './kernels/linux-' + version + '.tar.xz'])
+        download = run(['curl', '-XGET', kernel_url, '-o', './krnl/kernels/linux-' + version + '.tar.xz'])
         kernel_hash = get_kernel_hash(version)
 
         # Print out the kernel version and the signature of the kernel that was just downloaded.
@@ -69,7 +69,7 @@ def download_kernel(version):
 
     # Create the kernels signature object with the version and hash of the downloaded kernel.
     kernel_obj = {'version': version, 'hash': kernel_hash}
-    sig_file = open('./kernels/signatures/{}.json'.format(version), 'w')
+    sig_file = open('./krnl/kernels/signatures/{}.json'.format(version), 'w')
     sig_file.write(dumps(kernel_obj) + '\n')
     sig_file.close()
 
@@ -77,7 +77,7 @@ def download_kernel(version):
 
 
 def decompress_kernel(version):
-    run(['tar', 'xf', './kernels/linux-' + version + '.tar.xz'])
+    run(['tar', 'xf', './krnl/kernels/linux-' + version + '.tar.xz'])
 
 
 if __name__ == '__main__':
