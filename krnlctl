@@ -1,4 +1,4 @@
-#!/Library/Frameworks/Python.framework/Versions/3.6/bin/python3
+#!/usr/bin/python3
 
 import argparse, sys, webbrowser
 
@@ -6,7 +6,6 @@ from krnl import kernel_server, download_kernel, list_kernel, remove_kernel
 
 from krnl.build_environment import BuildEnvironment
 from krnl.destroy_environment import DestroyEnvironment
-from krnl.krnl_salt.krnl_salt import KernelSalt
 
 
 
